@@ -6,7 +6,6 @@ target 'MyMovieApp' do
   use_frameworks!
 
   # Pods for MyMovieApp
-  pod 'AlamofireImage', '~> 4.1'
   pod 'SDWebImage', '~> 5.0'
   pod 'NVActivityIndicatorView', '~> 4.7.0'
 

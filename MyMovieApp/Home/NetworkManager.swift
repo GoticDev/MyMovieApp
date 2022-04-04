@@ -41,9 +41,6 @@ class ApiConnection {
             if response.statusCode == 200 {
                 do {
                     let decoder = JSONDecoder()
-                    guard let jsonString = String(data: data, encoding: .utf8)  else {
-                        return
-                    }
                     let movies = try decoder.decode(Movies.self, from: data)
                     completion(movies,
                                movies.totalPages)

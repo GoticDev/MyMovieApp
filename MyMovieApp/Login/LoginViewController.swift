@@ -30,13 +30,7 @@ class LoginViewController: UIViewController {
         } else {
             print("nombre de usuario o contraseña incorrecta")
             let alert = UIAlertController(title: "Error", message: "Nombre de usuario o contraseña incorrecta", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { action in
-                switch action.style {
-                case .default: print("default")
-                case .cancel: print("cancel")
-                case .destructive: print("destructive")
-                }
-            }))
+            alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
             self.present(alert, animated: true, completion: nil)
         }
         
@@ -45,7 +39,7 @@ class LoginViewController: UIViewController {
     func canLogin() -> Bool {
         let user = UserData.user
         let pass = UserData.password
-        return true
+        
         if userTextField.text == user && passTextField.text == pass {
             return true
         } else {

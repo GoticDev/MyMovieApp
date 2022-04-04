@@ -36,7 +36,6 @@ class DetailViewController: UIViewController {
             poster.alpha = 0.5
         }
 
-        // Do any additional setup after loading the view.
     }
 
 

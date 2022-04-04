@@ -38,6 +38,9 @@ class HomeViewController: UIViewController {
             switch error {
             case .noloadlist:
                 print("noloadlist")
+                let alert = UIAlertController(title: "Algo salió mal!", message: "Vuelve a intentarlo mas tarde.", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+                self.present(alert, animated: true, completion: nil)
             case .nocastdata:
                 print("nocastdata")
             case .nomoredata:
