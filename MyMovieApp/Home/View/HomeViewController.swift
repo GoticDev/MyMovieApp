@@ -11,7 +11,8 @@ import SDWebImage
 class HomeViewController: UIViewController {
 
     private let homeViewModel = HomeViewModel()
-    var moviesList: [MovieList] = [MovieList]()
+    var moviesList: [MovieList] = []
+    var currentPage = 1
     
     @IBOutlet weak var tableView: UITableView!
     
@@ -26,20 +27,29 @@ class HomeViewController: UIViewController {
         print(moviesList.count)
     }
     
-    
     func getMovieList() {
-        let group = DispatchGroup()
-        group.enter()
-        ApiConnection.shared.getMoviesList { result in
-            self.moviesList = result.movies
-            group.leave()
-        }
-        
-        group.notify(queue: DispatchQueue.main) {[weak self] in
+        self.homeViewModel.getMovieList(currentPage: currentPage)
+        {  [weak self] list in
+            self?.moviesList = list
             self?.tableView.reloadData()
+            self?.currentPage += 1
+            print("currentPage", self?.currentPage)
+        } failure: { error in
+            switch error {
+            case .noloadlist:
+                print("noloadlist")
+            case .nocastdata:
+                print("nocastdata")
+            case .nomoredata:
+                print("nomoredata")
+                let alert = UIAlertController(title: "Ups!", message: "No hay mas peliculas para mostrar.", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+                self.present(alert, animated: true, completion: nil)
+            }
         }
+
     }
-    
+
     func setTableView() {
         tableView.delegate = self
         tableView.dataSource = self
@@ -59,9 +69,17 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         
         cell.title.text = moviesList[indexPath.row].title
         
-        let imageURL = Constant.mainImageURL + moviesList[indexPath.row].posterPath
-        if let imageURL = URL(string: imageURL){
+        let posterP = moviesList[indexPath.row].posterPath ?? ""
+        let imageURL = Constant.mainImageURL + posterP
+        if let imageURL = URL(string: imageURL), posterP != "" {
             cell.poster.sd_setImage(with: imageURL)
+        } else {
+            cell.poster.image = UIImage(named: "cine_image")
+            cell.poster.alpha = 0.5
+        }
+        
+        if indexPath.row == moviesList.count - 1 {
+            getMovieList()
         }
         
         return cell
@@ -78,8 +96,12 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         detailVC.detailVoteAverage = String(moviesList[indexPath.row].voteAverage)
         detailVC.detailReleaseDate = String(moviesList[indexPath.row].releaseDate)
         
-        let imageURL = Constant.mainImageURL + moviesList[indexPath.row].posterPath
-        detailVC.detailPoster = imageURL
+        let posterP = moviesList[indexPath.row].posterPath ?? ""
+        let imageURL = Constant.mainImageURL + posterP
+        if posterP != "" {
+            detailVC.detailPoster = imageURL
+        }
+        
         
         navigationController?.pushViewController(detailVC, animated: true)
     }

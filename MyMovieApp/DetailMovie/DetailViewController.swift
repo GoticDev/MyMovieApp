@@ -31,6 +31,9 @@ class DetailViewController: UIViewController {
         
         if let imageURL = URL(string: detailPoster) {
             poster.sd_setImage(with: imageURL)
+        } else {
+            poster.image = UIImage(named: "cine_image")
+            poster.alpha = 0.5
         }
 
         // Do any additional setup after loading the view.

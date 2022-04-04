@@ -10,26 +10,37 @@ import Foundation
 class HomeViewModel {
     
     private var movies: Movies?
-    
+    var moviesList: [MovieList] = []
     private weak var view: HomeViewController?
-    private let apiConnect = ApiConnection()
+    private let apiConnect = ApiConnection.shared
+    private var totalPages: Int = 0
     
     func bind(view: HomeViewController) {
         self.view = view
     }
     
-    func getMovieList() -> [MovieList]? {
-        let group = DispatchGroup()
-        group.enter()
-        self.apiConnect.getMoviesList { result in
-            self.movies = result
-            group.leave()
+    func getMovieList(currentPage: Int,
+                      success: @escaping ([MovieList]) -> Void,
+                      failure: @escaping (ErrorMovies) -> Void) {
+        
+        MBHubLoading.showLoading()
+        self.apiConnect.getMoviesList(page: currentPage) { [weak self] result, totalPages  in
+            MBHubLoading.hideLoading()
+            guard let self = self else {return}
+            DispatchQueue.main.async {
+                self.moviesList += result.movies
+                self.totalPages = totalPages
+                if currentPage > self.totalPages {
+                    failure(.nomoredata)
+                }
+                success(self.moviesList)
+            }
+        } failure:  { error in
+            MBHubLoading.hideLoading()
+            failure(error)
         }
         
-        group.notify(queue: DispatchQueue.main) {[weak self] in
-            
-        }
-        return movies?.movies
+        
     }
     
 }

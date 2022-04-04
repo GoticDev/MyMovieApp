@@ -8,6 +8,7 @@ target 'MyMovieApp' do
   # Pods for MyMovieApp
   pod 'AlamofireImage', '~> 4.1'
   pod 'SDWebImage', '~> 5.0'
+  pod 'NVActivityIndicatorView', '~> 4.7.0'
 
   target 'MyMovieAppTests' do
     inherit! :search_paths
