@@ -24,28 +24,32 @@ class LoginViewController: UIViewController {
 
     @IBAction func goHomeAct(_ sender: Any) {
         print("tapped")
-        if canLogin() {
+        switch canLogin() {
+        case .logSuccess:
             let vc = HomeViewController(nibName: "HomeViewController", bundle: nil)
             navigationController?.pushViewController(vc, animated: true)
-        } else {
-            print("nombre de usuario o contraseña incorrecta")
+        case .invalid:
             let alert = UIAlertController(title: "Error", message: "Nombre de usuario o contraseña incorrecta", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
             self.present(alert, animated: true, completion: nil)
         }
-        
     }
     
-    func canLogin() -> Bool {
+    func canLogin() -> ValidateLog {
         let user = UserData.user
         let pass = UserData.password
         
         if userTextField.text == user && passTextField.text == pass {
-            return true
+            return .logSuccess
         } else {
-            return false
+            return .invalid
         }
         
+    }
+    
+    enum ValidateLog: String {
+        case logSuccess
+        case invalid
     }
     
 }
