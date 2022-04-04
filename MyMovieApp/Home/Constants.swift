@@ -14,7 +14,8 @@ struct Constant {
     
     // Endpoints
     static let upComingList = "3/movie/upcoming"
-    static let page = "?page=1&"
+    static let page = "?page=\(pageInt)&"
+    static var pageInt = 1
     
 }
 

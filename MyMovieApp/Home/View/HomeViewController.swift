@@ -17,6 +17,9 @@ class HomeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationItem.title = "My Movie App"
+        self.navigationItem.setHidesBackButton(true, animated: true)
+        
         homeViewModel.bind(view: self)
         setTableView()
         getMovieList()

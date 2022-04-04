@@ -13,6 +13,7 @@ class ApiConnection {
     static let shared = ApiConnection()
     
     func getMoviesList (completion: @escaping (_ result: Movies) -> Void) {
+    
         let url = Constant.mainURL + Constant.upComingList + Constant.page + Constant.apiKey
         
         let session = URLSession.shared

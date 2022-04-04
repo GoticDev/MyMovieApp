@@ -18,7 +18,8 @@ class LoginViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        
+        loginButton.cornerButton()
     }
 
     @IBAction func goHomeAct(_ sender: Any) {
@@ -44,7 +45,7 @@ class LoginViewController: UIViewController {
     func canLogin() -> Bool {
         let user = UserData.user
         let pass = UserData.password
-        
+        return true
         if userTextField.text == user && passTextField.text == pass {
             return true
         } else {
