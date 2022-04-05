@@ -100,8 +100,8 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         detailVC.detailReleaseDate = String(moviesList[indexPath.row].releaseDate)
         
         let posterP = moviesList[indexPath.row].posterPath ?? ""
-        let imageURL = Constant.mainImageURL + posterP
         if posterP != "" {
+            let imageURL = Constant.mainImageURL + posterP
             detailVC.detailPoster = imageURL
         }
         

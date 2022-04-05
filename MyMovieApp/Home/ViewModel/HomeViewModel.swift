@@ -13,7 +13,7 @@ class HomeViewModel {
     var moviesList: [MovieList] = []
     private weak var view: HomeViewController?
     private let apiConnect = ApiConnection.shared
-    private var totalPages: Int = 0
+    var totalPages: Int = 0
     
     func bind(view: HomeViewController) {
         self.view = view
@@ -32,6 +32,7 @@ class HomeViewModel {
                 self.totalPages = totalPages
                 if currentPage > self.totalPages {
                     failure(.nomoredata)
+                    return
                 }
                 success(self.moviesList)
             }
